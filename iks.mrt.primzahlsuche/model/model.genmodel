@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/iks.mrt.primzahlsuche/src"
+    modelPluginID="iks.mrt.primzahlsuche" modelName="Model" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>primzahlmodel.ecore</foreignModel>
+  <genPackages prefix="Mrtmodel" basePackage="iks.mrt.primzahlsuche.model" disposableProviderFactory="true"
+      ecorePackage="primzahlmodel.ecore#/">
+    <genClasses ecoreClass="primzahlmodel.ecore#//PrimeContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference primzahlmodel.ecore#//PrimeContainer/primeNumbers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference primzahlmodel.ecore#//PrimeContainer/lastTestedNumber"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference primzahlmodel.ecore#//PrimeContainer/lastFoundPrimeNr"/>
+    </genClasses>
+    <genClasses ecoreClass="primzahlmodel.ecore#//PrimeNumber">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute primzahlmodel.ecore#//PrimeNumber/numberstring"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
