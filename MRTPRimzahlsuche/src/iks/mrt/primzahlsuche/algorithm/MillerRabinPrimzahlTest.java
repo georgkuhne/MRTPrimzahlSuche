@@ -97,20 +97,22 @@ public class MillerRabinPrimzahlTest {
 
 		BigInteger d = N_1.divide(Big2.pow(s));
 
-		BigInteger x0;
 		BigInteger x1 = modular_exponentiation(A, d, N); // a^d mod N
-
+		//Bedingung 1:
+		if(x1.compareTo(Big1)==0||(x1.compareTo(N_1)==0))
+			return true; 
+		///Bedingung 2: 
 		for (int i = 1; i < s + 1; i++) {
-			x0 = x1;
-			x1 = x0.pow(2).mod(N);
-			if (x1.compareTo(Big1) == 0 && x0.compareTo(Big1) != 0
-					&& x0.compareTo(N_1) != 0)
-				return false;
+			x1 = x1.pow(2).mod(N);
+			
+			if (x1.compareTo(N_1)==0)
+				return true;
+			if (x1.compareTo(Big1)<0)
+				break; 
 		}
-		if (x1.compareTo(Big1) != 0)
-			return true;
-		else
-			return true;
+		
+	
+			return false;
 	}
 
 	private BigInteger ggt(BigInteger x, BigInteger y)
@@ -120,7 +122,7 @@ public class MillerRabinPrimzahlTest {
 		return ggt(y, x.mod(y));
 	}
 	
-	public static void main(String[] args) {
+	public static void test(String[] args) {
 		BigInteger n = BigInteger.valueOf(10);
 		for (int i = 0; i < 500000; i++) {
 			MillerRabinPrimzahlTest test = new MillerRabinPrimzahlTest();
