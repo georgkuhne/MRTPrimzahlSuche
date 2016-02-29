@@ -1,7 +1,6 @@
 package iks.mrt.primzahlsuche.gui;
 
 import iks.mrt.primzahlsuche.algorithm.MillerRabinPrimzahlTest;
-import iks.mrt.primzahlsuche.persistence.PersistenceUtility;
 import iks.mrt.primzahlsuche.persistence.PersistenceUtilityFile;
 
 import java.math.BigInteger;
@@ -22,21 +21,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import sun.awt.HorizBagLayout;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-
-import com.sun.xml.internal.ws.api.pipe.NextAction;
 
 public class CompositeMainMRT extends Composite {
 	private Text lastPrimeNr;
@@ -136,9 +125,6 @@ public class CompositeMainMRT extends Composite {
 		fd_text_1.right = new FormAttachment(100, -10);
 		actualNr.setLayoutData(fd_text_1);
 
-		
-		
-	
 		actualNr.addListener(SWT.Resize, scrollBarListener2);
 		actualNr.addListener(SWT.Modify, scrollBarListener2);
 		init();
@@ -153,10 +139,9 @@ public class CompositeMainMRT extends Composite {
 	}
 
 	private void init() {
-PersistenceUtilityFile.getINSTANCE().init();
-	aktuelleZahl=	PersistenceUtilityFile.getINSTANCE().getLastPrime();
-	lastPrimeNr.setText(aktuelleZahl.toString());
-	actualNr.setText(aktuelleZahl.toString());
+		aktuelleZahl = PersistenceUtilityFile.getINSTANCE().getLastPrime();
+		lastPrimeNr.setText(aktuelleZahl.toString());
+		actualNr.setText(aktuelleZahl.toString());
 	}
 
 	protected void start() {
@@ -167,18 +152,7 @@ PersistenceUtilityFile.getINSTANCE().init();
 		isRunning = true;
 	}
 
-	public void loadZahlen() {
-
-		letztePrimzahl = PersistenceUtility.getINSTANCE().getLastPrime();
-		aktuelleZahl = PersistenceUtility.getINSTANCE().getActualNumber();
-		lastPrimeNr.setText(letztePrimzahl.toString());
-		actualNr.setText(aktuelleZahl.toString());
-		int maxStellen = lastPrimeNr.getText().trim().length();
-		String[] list=new String[maxStellen];
-		for (int i = 1; i <= maxStellen; i++) {
-			list[i-1]=""+i;
-		}
-	}
+	
 
 	public class RunThread extends Thread {
 
@@ -187,26 +161,28 @@ PersistenceUtilityFile.getINSTANCE().init();
 		public void run() {
 
 			while (!stopp) {
-				aktuelleZahl =  aktuelleZahl.add(BigInteger.ONE);
+				aktuelleZahl = aktuelleZahl.add(BigInteger.ONE);
 				Display.getDefault().syncExec(new Runnable() {
-		
-										public void run() {
-										actualNr.setText(aktuelleZahl.toString());
-										}});
-										
+
+					public void run() {
+						actualNr.setText(aktuelleZahl.toString());
+					}
+				});
+
 				MillerRabinPrimzahlTest test = new MillerRabinPrimzahlTest();
 				if (test.isPrime(aktuelleZahl, 100)) {
-					PersistenceUtilityFile.getINSTANCE().writePrime(aktuelleZahl);
+					PersistenceUtilityFile.getINSTANCE().writePrime(
+							aktuelleZahl);
 					Display.getDefault().syncExec(new Runnable() {
-						
+
 						public void run() {
 							lastPrimeNr.setText(aktuelleZahl.toString());
-						}});
+						}
+					});
 				}
 
-			
 			}
-			}
+		}
 
 		public void setStopp(boolean b) {
 			stopp = b;
